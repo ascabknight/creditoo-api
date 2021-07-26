@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'Creditoo',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '192.168.1.151',
+        'HOST': '10.174.57.122',
         'PORT': '5432'
     }
 }

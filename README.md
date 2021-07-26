@@ -29,9 +29,16 @@ $ virtualenv venv
 ```
 Esta instruccion va a crear un entorno virtual llamado "venv". Antes de ejecutar el proyecto activemos el ambiente virtual ejecutando:
 
+Mac/Linux: 
 ```bash
 $ source venv/bin/activate
 ```
+
+Windows:
+```bash
+PS C:\> <venv>\Scripts\Activate.ps1
+```
+
 Con el ambiente virtual activado (venv) ahora instalemos las dependencias del proyecto ejecutando:
 
 ```bash

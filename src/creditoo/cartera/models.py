@@ -27,15 +27,26 @@ class Clientes(models.Model):
     nombre = models.CharField(max_length=100)
     url_logo = models.CharField(max_length=150)
 
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
+
 
 class ObligacionFinanciera(models.Model):
-    persona_id = models.ForeignKey(Persona, on_delete=models.CASCADE)
-    cliente_id = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    persona_id = models.ForeignKey(Persona, on_delete=models.CASCADE, verbose_name='Deudor')
+    cliente_id = models.ForeignKey(Clientes, on_delete=models.CASCADE, verbose_name='Cliente')
     numero_referencia = models.CharField(max_length=100)
     estado_obligacion = models.CharField(max_length=150)
     fecha_ultimo_pago = models.DateField(null=True)
     dias_mora = models.IntegerField()
     saldo_vencido = models.FloatField()
+
+    class Meta:
+        verbose_name = 'Obligacion Financiera'
+        verbose_name_plural = 'Obligaciones Financieras'
 
     
 
