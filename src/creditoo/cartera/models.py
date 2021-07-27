@@ -53,31 +53,31 @@ class ObligacionFinanciera(models.Model):
 class CuentasPorCobrar(models.Model):
     readonly_fields = ('creado', 'actualizado')
     
-    obligacion = models.ForeignKey(ObligacionFinanciera, verbose_name='Obligacion')
+    obligacion = models.ForeignKey(ObligacionFinanciera,on_delete=models.CASCADE, verbose_name='Obligacion')
     periodo = models.CharField(max_length=100)
     estado_obligacion = models.CharField(max_length=150)
     fecha_ultimo_pago = models.DateField(null=True)
     tramo = models.CharField(max_length=150)
     dias_mora = models.IntegerField()
-    saldo_vencido = models.DecimalField(verbose_name="Saldo en Mora")
-    total_pagar = models.DecimalField(verbose_name="Total a Pagar")
+    saldo_vencido = models.FloatField(verbose_name="Saldo en Mora")
+    total_pagar = models.FloatField(verbose_name="Total a Pagar")
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
 class AcuerdoPago(models.Model):
     readonly_fields = ('creado', 'actualizado')
 
-    obligacion = models.ForeignKey(ObligacionFinanciera, verbose_name='Obligacion')
+    obligacion = models.ForeignKey(ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')
     cuotas = models.IntegerField()
-    valor_cuota = models.DecimalField()
+    valor_cuota = models.FloatField()
     comentarios = models.CharField(max_length=200)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
 class Recaudo(models.Model):
-    obligacion = models.ForeignKey(ObligacionFinanciera, verbose_name='Obligacion')
+    obligacion = models.ForeignKey(ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')
     estado_obligacion = models.CharField(max_length=150)
     fecha_pago_recaudo = models.DateField(null=True)
     tramo = models.CharField(max_length=150)
-    valor_recaudo = models.DecimalField()
+    valor_recaudo = models.FloatField()
 
