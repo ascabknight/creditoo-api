@@ -46,6 +46,10 @@ class ObligacionFinanciera(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, verbose_name='Cliente')
     numero_referencia = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = 'Obligacion Financiera'
+        verbose_name_plural = 'Obligaciones Financieras'
+
 class CuentasPorCobrar(models.Model):
     readonly_fields = ('creado', 'actualizado')
     
@@ -59,10 +63,6 @@ class CuentasPorCobrar(models.Model):
     total_pagar = models.DecimalField(verbose_name="Total a Pagar")
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = 'Obligacion Financiera'
-        verbose_name_plural = 'Obligaciones Financieras'
 
 class AcuerdoPago(models.Model):
     readonly_fields = ('creado', 'actualizado')
