@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ DATABASES = {
         'NAME': 'Creditoo',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '192.168.1.152',
+        'HOST': '192.168.1.151',
         'PORT': '5432'
     }
 }
