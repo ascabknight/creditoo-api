@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -71,6 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'creditoo.wsgi.application'
 
+DATABASE_HOST = env('DATABASE_HOST')
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -81,7 +87,7 @@ DATABASES = {
         'NAME': 'Creditoo',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '192.168.1.151',
+        'HOST': DATABASE_HOST,
         'PORT': '5432'
     }
 }
