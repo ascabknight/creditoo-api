@@ -67,6 +67,10 @@ class CuentasPorCobrar(models.Model):
     total_pagar = models.FloatField(verbose_name="Total a Pagar")
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Cuenta por cobrar'
+        verbose_name_plural = 'Cuentas por Cobrar'
 
 
 class AcuerdoPago(models.Model):
@@ -74,6 +78,7 @@ class AcuerdoPago(models.Model):
 
     obligacion = models.ForeignKey(ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')
     cuotas = models.IntegerField()
+    fecha_compromiso = models.DateField()
     valor_cuota = models.FloatField()
     comentarios = models.CharField(max_length=200)
     creado = models.DateTimeField(auto_now_add=True)

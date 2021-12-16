@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Cliente, Persona
-from .models import ObligacionFinanciera, CuentasPorCobrar
+from .models import Cliente, Persona, ObligacionFinanciera, CuentasPorCobrar, AcuerdoPago
 
 # Register your models here.
 admin.site.register(Persona)
 admin.site.register(ObligacionFinanciera)
 admin.site.register(Cliente)
+admin.site.register(AcuerdoPago)
 
 class CuentasPorCobrarAdmin(admin.ModelAdmin):
     list_display = ['get_obligacion_cliente', 'get_obligacion_persona', 'saldo_vencido']
