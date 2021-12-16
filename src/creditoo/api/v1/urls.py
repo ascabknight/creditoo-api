@@ -4,7 +4,7 @@ from cartera import views
 
 router = routers.DefaultRouter()
 router.register(r'personas', views.PersonaViewSet)
-router.register(r'cuentas', views.CuentasPorCobrarViewSet)
+router.register(r'cuentas', views.CuentasPorCobrarViewSet, basename="CuentasPorCobrar")
 
 urlpatterns = [
     path('', include(router.urls)),

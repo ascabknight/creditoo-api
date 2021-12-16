@@ -11,5 +11,11 @@ class PersonaViewSet(viewsets.ModelViewSet):
     serializer_class = PersonaSerializer
 
 class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
-    queryset = CuentasPorCobrar.objects.all()
     serializer_class = CuentasPorCobrarSerializer
+
+    def get_queryset(self):
+        queryset = CuentasPorCobrar.objects.all()
+        usuario = self.request.query_params.get('usuario')
+        if usuario is not None:
+            queryset = queryset.filter(obligacion__persona__numero_identificacion=usuario)
+        return queryset
