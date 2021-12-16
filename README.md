@@ -49,7 +49,7 @@ $ pip install -r requirements.txt
 Para ejecutar este proyecto ejecutar desde la carpeta "creditoo"
 
 ```bash
-  python manage.py 
+  python manage.py runserver
 ```
 
   
