@@ -25,6 +25,7 @@ class Persona(models.Model):
     segundo_apellido = models.CharField(max_length=100, null=True, blank=True)
     telefono = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(max_length=100)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
