@@ -25,4 +25,4 @@ class CuentasPorCobrarSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CuentasPorCobrar
-        fields = ('numero_identificacion','nombre_deudor', 'cliente','estado_obligacion', 'fecha_ultimo_pago','dias_mora', 'saldo_vencido')
+        fields = ('total_pagar','numero_identificacion','nombre_deudor', 'cliente','estado_obligacion', 'fecha_ultimo_pago','dias_mora', 'saldo_vencido')

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.filters import ListFilter
 from django.db import models
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey
@@ -10,6 +11,7 @@ from django.db.models.fields.related import ForeignKey
 class Persona(models.Model):
     readonly_fields = ('creado', 'actualizado')
     list_display = ("numero_identificacion", "primer_apellido", "segundo_apellido", "primer_nombre")
+    ListFilter = ('creado')
     TIPO_IDENTIFICACION = (
         ('CC', 'Cedula'),
         ('CE', 'Cedula Extranjeria'),
@@ -26,10 +28,11 @@ class Persona(models.Model):
     telefono = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100, null=True, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(max_length=100)
     actualizado = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.primer_apellido}, {self.primer_nombre}"
+        return f"{self.primer_nombre}, {self.primer_apellido}"
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
@@ -61,7 +64,7 @@ class CuentasPorCobrar(models.Model):
     periodo = models.CharField(max_length=100)
     estado_obligacion = models.CharField(max_length=150)
     fecha_ultimo_pago = models.DateField(null=True)
-    tramo = models.CharField(max_length=150)
+        tramo = models.CharField(max_length=150)
     dias_mora = models.IntegerField()
     saldo_vencido = models.FloatField(verbose_name="Saldo en Mora")
     total_pagar = models.FloatField(verbose_name="Total a Pagar")
@@ -83,6 +86,10 @@ class AcuerdoPago(models.Model):
     comentarios = models.CharField(max_length=200)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.fecha_compromiso}"
+
 
 class Recaudo(models.Model):
     obligacion = models.ForeignKey(ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')

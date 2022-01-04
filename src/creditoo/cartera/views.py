@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.decorators import renderer_classes
 
 from .serializers import PersonaSerializer, CuentasPorCobrarSerializer
 from .models import Persona, CuentasPorCobrar
@@ -19,3 +20,4 @@ class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
         if usuario is not None:
             queryset = queryset.filter(obligacion__persona__numero_identificacion=usuario)
         return queryset
+
