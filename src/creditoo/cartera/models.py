@@ -64,7 +64,7 @@ class CuentasPorCobrar(models.Model):
     periodo = models.CharField(max_length=100)
     estado_obligacion = models.CharField(max_length=150)
     fecha_ultimo_pago = models.DateField(null=True)
-        tramo = models.CharField(max_length=150)
+    tramo = models.CharField(max_length=150)
     dias_mora = models.IntegerField()
     saldo_vencido = models.FloatField(verbose_name="Saldo en Mora")
     total_pagar = models.FloatField(verbose_name="Total a Pagar")
