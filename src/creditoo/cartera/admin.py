@@ -34,7 +34,7 @@ class CuentasPorCobrarAdmin(admin.ModelAdmin):
                 #mostraremos un mensaje de error si el usuario carga un archivo que no corresponde a un .csv
                 messages.warning(request, 'Solo se pueden subir archivos .csv')
                 return HttpResponseRedirect(request.path_info)
-            
+
             #decodificamos a un formato que podamos entender
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")

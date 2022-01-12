@@ -2,7 +2,7 @@
 {% block content %}
     <div style="height: calc(70vh); width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
     <h1 style="font-weight: bold;">Seleccionar archivo csv para cargar nuestra base de datos.</h1>
-        <form action="." method="POST" enctype="multipart/form-data">
+        <form draggable="true" id="formulario" action="." method="POST" enctype="multipart/form-data">
             {{ form.as_p }}
             {% csrf_token %}
             <button 
