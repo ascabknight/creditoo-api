@@ -91,9 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Creditoo',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': DATABASE_HOST,
+        'USER': 'postgres',
+        'PASSWORD': 'cohen',
+        'HOST': "localhost",
         'PORT': '5432'
     }
 }

@@ -1,77 +1,75 @@
 import pandas as pd
-import psycopg2
 import re
-import json
+import psycopg2
+import datetime
+import numpy as np
 
-#Conexion a base de datos
-try:
 
-    connection =  psycopg2.connect(
-        host = "localhost",
-        port = "5433",
-        user = "postgres",
-        password = 'cohen',
-        database="pruebas"
+
+now = datetime.datetime.now()
+
+
+try: 
+    connection = psycopg2.connect(
+        host="localhost",
+        user="postgres",
+        password="cohen",
+        database="Pruebas"
     )
-    
-    print('Connection success 🟢')
     cursor = connection.cursor()
-
-    
-    #SOLO TRAEMOS LOS DATOS NO NULOS
-    database = pd.read_csv('Database.csv').dropna()
+    print('Conexión establecida ')
 
 
+    #Basedatos.csv
+    database = pd.read_csv('/Users/cohen/Desktop/work/credito-old-api/creditoo-api/src/scripts/ingestion/Database.csv')
     dataframe = pd.DataFrame()
     dataframe['Nombre deudor'] = database['Nombre del Cliente']
-    dataframe['Celular'] =  database['Celular']
-    dataframe['Llave'] = database['Llave']
+    dataframe['Celular'] = database['Celular']
+    dataframe['Codigo referencia'] = database['Llave']
     dataframe['Cedula'] = database['Cedula ']
-    dataframe['Codigo ref'] = database['Llave']
     dataframe['Direccion del cliente'] = database['Nombre Ciudad'] + ' ' +  database['Direccion del Cliente']
-    #Datos para cuentas por cobrar 
     dataframe['Tramo'] = database['Tramo inicial']
     dataframe['Dias en mora'] = database['DIAS DE NO PAGO']
     dataframe['Saldo en mora'] = database['SALDO Total adeudado']
     dataframe['Total a pagar'] = database['Total a pagar']
-    dataframe['Fecha ultimo pago'] = database['Fecha ultimo pago']
-    dataframe.set_index('Llave')
+    dataframe['Fecha ultimo pago'] = database['Fecha ultimo pago'].replace({np.nan: None})
+    dataframe['Estado'] = database['Estado inicial']
+
     
-    
-    print(dataframe.head(10).plot.scatter(y="Saldo en mora", x="Total a pagar"))
-    
-    for indice_fila, fila in dataframe.iterrows():  
+    #Emails.csv
+    emails = pd.read_csv('/Users/cohen/Desktop/work/credito-old-api/creditoo-api/src/scripts/ingestion/Emails.csv')
+    emails_dataframe = pd.DataFrame()
+    emails_dataframe['Cedula'] = emails['Codigo del Cliente']
+    emails_dataframe['Email'] = emails['Email'].replace({"NOTIENE@CORREO.COM" : None, "NOTIENE@GMAIL.COM": None })
+
+    #Merge Database.csv with Emails.csv
+    dataframe_merge = pd.merge(dataframe, emails_dataframe[['Cedula', 'Email']])
+
+
+    for indice_fila, fila in dataframe_merge.head(5).iterrows():
         numeros = re.split("CE:|-|Ext:0", fila['Celular'])
         numeros = list(filter(str.strip, numeros))
-        numero_concat = ''
-        
-        #OBLIGACIÓN FINANCIERA
-        query_obligacion_financiera = """ INSERT INTO obligacion_financiera(DEUDOR, NUMERO_REFERENCIA) VALUES ('%s', '%s');
-        """ % (fila['Nombre deudor'], fila['Codigo ref'])
-        
-        
-        
+        numeros_concat = ''
+        id_concat = ''
+        cursor.execute("""SELECT id FROM cartera_persona""")
+        id_ = cursor.fetchall()
+
+        query_obligacion = """
+            INSERT INTO cartera_obligacionfinanciera (numero_referencia, cliente_id, persona_id) VALUES ('%s', '%s', '%s')
+        """%(fila['Codigo referencia'], 1, id_[indice_fila][0])
+
+        cursor.execute(query_obligacion)
+        print('Success 🟢')
+        connection.commit()
+
         for numero in numeros:
-            numero_concat += ',' + numero
-    
-            query = """
-                INSERT INTO personas (CODIGO,PRIMER_NOMBRE, CEDULA, DIRECCION, NUMEROS) VALUES ('%s','%s', '%s', '%s', '%s'); 
-                """ % (fila['Codigo ref'], fila['Nombre deudor'].split()[0], int(fila['Cedula']),fila['Direccion del cliente'], numero_concat)
+            numeros_concat += '' + numero
+            query_persona = """
+                INSERT INTO cartera_persona (numero_identificacion, tipo_identification, telefono, direccion, nombre, email, creado, actualizado) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');
+            """ % (int(fila['Cedula']), 'CC', numeros_concat, fila['Direccion del cliente'], fila['Nombre deudor'], fila['Email'], now.strftime("%Y/%m/%d %H:%M:%S"), now.strftime("%Y/%m/%d %H:%M:%S"))
         
-    cursor.execute("SELECT * FROM obligacion_financiera")
-    records = json.dumps(cursor.fetchall())
-    print(records)
-    connection.commit()
-   
-    
-            
-    
-
-
 except Exception as ex:
     print(ex)
 finally:
-    if connection:
-        cursor.close()
-        connection.close()
-        print('PostgreSQL connection is closed 🔴')
+    connection.close()
+    print('Conexión cerrada ')
