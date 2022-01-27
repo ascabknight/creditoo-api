@@ -1,14 +1,28 @@
-from django.shortcuts import render
+from urllib.parse import quote_from_bytes
 from rest_framework import viewsets
 
-from .serializers import PersonaSerializer, CuentasPorCobrarSerializer
-from .models import Persona, CuentasPorCobrar
+from .serializers import PersonaSerializer, CuentasPorCobrarSerializer, AcuerdoPagoSerializer, ObligacionFinancieraSerializer
+from .models import AcuerdoPago, ObligacionFinanciera, Persona, CuentasPorCobrar
 
 # Create your views here.
+
 
 class PersonaViewSet(viewsets.ModelViewSet):
     queryset = Persona.objects.all()
     serializer_class = PersonaSerializer
+
+class ObligacionFinancieraViewSet(viewsets.ModelViewSet):
+    queryset = ObligacionFinanciera.objects.all()
+    serializer_class = ObligacionFinancieraSerializer
+
+class AcuerdoPagoViewSet(viewsets.ModelViewSet):
+    serializer_class = AcuerdoPagoSerializer
+    queryset = AcuerdoPago.objects.all()
+
+    def create(self, request):
+        data = request.data
+        return super().create(request)
+
 
 class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
     serializer_class = CuentasPorCobrarSerializer
@@ -17,5 +31,6 @@ class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
         queryset = CuentasPorCobrar.objects.all()
         usuario = self.request.query_params.get('usuario')
         if usuario is not None:
-            queryset = queryset.filter(obligacion__persona__numero_identificacion=usuario)
+            queryset = queryset.filter(
+                obligacion__persona__numero_identificacion=usuario)
         return queryset

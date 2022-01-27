@@ -1,13 +1,27 @@
 from rest_framework import serializers
 
-from .models import Persona, CuentasPorCobrar
+from .models import AcuerdoPago, ObligacionFinanciera, Persona, CuentasPorCobrar
 
 class PersonaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Persona
-        fields = ('id','primer_nombre', 'primer_apellido','tipo_identification', 'numero_identificacion')
+        fields = ('id','nombre','tipo_identification', 'numero_identificacion')
 
-class CuentasPorCobrarSerializer(serializers.HyperlinkedModelSerializer):
+class AcuerdoPagoSerializer(serializers.ModelSerializer):
+    obligacion = serializers.SlugRelatedField(
+        many=False, queryset=ObligacionFinanciera.objects.all(), slug_field='numero_referencia')
+
+    class Meta:
+        model = AcuerdoPago
+        fields = ('__all__')
+
+class ObligacionFinancieraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ObligacionFinanciera
+        fields = ('__all__')
+
+
+class CuentasPorCobrarSerializer(serializers.ModelSerializer):
     cliente = serializers.CharField(
         source='obligacion.cliente',
         read_only = True
@@ -25,4 +39,4 @@ class CuentasPorCobrarSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CuentasPorCobrar
-        fields = ('numero_identificacion','nombre_deudor', 'cliente','estado_obligacion', 'fecha_ultimo_pago','dias_mora', 'saldo_vencido')
+        fields = ('__all__')
