@@ -44,6 +44,14 @@ Con el ambiente virtual activado (venv) ahora instalemos las dependencias del pr
 ```bash
 $ pip install -r requirements.txt
 ```
+## Crear migraciones de nuestros modelos de base de dato
+
+```
+$ python src/creditoo/manage.py makemigrations cartera
+```
+```
+$ python src/creditoo/manage.py migrate
+```
 
 ## Running App
 Para ejecutar este proyecto ejecutar desde la carpeta "creditoo"
