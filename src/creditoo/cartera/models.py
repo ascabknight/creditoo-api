@@ -1,14 +1,13 @@
 from django.db import models
-from numpy import require
+from django.db.models.base import Model
 
 class Persona(models.Model):
     readonly_fields = ('creado', 'actualizado')
     list_display = ("numero_identificacion", "nombre")
     
-
     numero_identificacion = models.BigIntegerField()
     tipo_identification = models.CharField(max_length=2, default='CC')
-    nombre = models.CharField(max_length=100)
+    nombre_completo = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100)
@@ -16,7 +15,7 @@ class Persona(models.Model):
     actualizado = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.nombre}"
+        return f"{self.nombre_completo}"
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
@@ -71,10 +70,23 @@ class AcuerdoPago(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
-class Recaudo(models.Model):
-    obligacion = models.ForeignKey(ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')
-    estado_obligacion = models.CharField(max_length=150)
-    fecha_pago_recaudo = models.DateField(null=True)
-    tramo = models.CharField(max_length=150)
-    valor_recaudo = models.FloatField()
+class EstudioCredito(models.Model):
+    readonly_fields = ('creado', 'actualizado')
 
+    ESTADOS = (
+        ('EN_ESTUDIO', 'EN ESTUDIO'),
+        ('PREAPROBADO', 'PREAPROBADO'),
+        ('APROBADO', 'APROBADO'),
+        ('DENEGADO', 'DENEGADO'),
+        ('FALTA_INFORMACION', 'FALTA INFORMACION'),
+    )
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
+    monto_solicitado = models.FloatField(default=0)
+    cuotas = models.IntegerField(default=0)
+    documento_adjunto = models.CharField(max_length=200)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='EN_ESTUDIO')
+    creado = models.DateTimeField(auto_now_add=True)
+    actualizado = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = 'Estudio De Credito'
+        verbose_name_plural = 'Estudios de Credito'

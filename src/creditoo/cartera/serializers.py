@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import AcuerdoPago, ObligacionFinanciera, Persona, CuentasPorCobrar
+from .models import AcuerdoPago, EstudioCredito, ObligacionFinanciera, Persona, CuentasPorCobrar
 
 class PersonaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -18,6 +18,13 @@ class AcuerdoPagoSerializer(serializers.ModelSerializer):
 class ObligacionFinancieraSerializer(serializers.ModelSerializer):
     class Meta:
         model = ObligacionFinanciera
+        fields = ('__all__')
+
+
+
+class EstudioCreditoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EstudioCredito
         fields = ('__all__')
 
 

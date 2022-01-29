@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cliente, Persona, ObligacionFinanciera, CuentasPorCobrar, AcuerdoPago
+from .models import *
 
 # Register your models here.
 class CuentasPorCobrarAdmin(admin.ModelAdmin):
@@ -14,7 +14,7 @@ class CuentasPorCobrarAdmin(admin.ModelAdmin):
         return obj.obligacion.persona
     
 class PersonaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nombre', 'email']
+    list_display = ['id', 'nombre_completo', 'email']
 
 class AcuerdoPagoAdmin(admin.ModelAdmin):
     list_display = ['id', 'obligacion', 'valor_cuota', 'fecha_compromiso']
@@ -25,9 +25,13 @@ class ObligacionFinancieraAdmin(admin.ModelAdmin):
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'url_logo']
 
+# Register your models here.
+class EstudioCreditoAdmin(admin.ModelAdmin):
+    list_display = ['persona', 'id', 'documento_adjunto']
 
 admin.site.register(CuentasPorCobrar, CuentasPorCobrarAdmin)
 admin.site.register(Persona, PersonaAdmin)
 admin.site.register(AcuerdoPago, AcuerdoPagoAdmin)
 admin.site.register(ObligacionFinanciera, ObligacionFinancieraAdmin)
 admin.site.register(Cliente, ClienteAdmin)
+admin.site.register(EstudioCredito, EstudioCreditoAdmin)
