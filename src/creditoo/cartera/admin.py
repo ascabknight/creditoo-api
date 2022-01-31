@@ -14,7 +14,7 @@ class CuentasPorCobrarAdmin(admin.ModelAdmin):
         return obj.obligacion.persona
     
 class PersonaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nombre_completo', 'email']
+    list_display = ['id', 'nombre_completo', 'email', 'numero_identificacion']
 
 class AcuerdoPagoAdmin(admin.ModelAdmin):
     list_display = ['id', 'obligacion', 'valor_cuota', 'fecha_compromiso']

@@ -3,9 +3,9 @@ from django.db.models.base import Model
 
 class Persona(models.Model):
     readonly_fields = ('creado', 'actualizado')
-    list_display = ("numero_identificacion", "nombre")
+    list_display = ("numero_identificacion", "nombre_completo")
     
-    numero_identificacion = models.BigIntegerField()
+    numero_identificacion = models.IntegerField(unique=True)
     tipo_identification = models.CharField(max_length=2, default='CC')
     nombre_completo = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100)
@@ -66,6 +66,7 @@ class AcuerdoPago(models.Model):
     cuotas = models.IntegerField()
     fecha_compromiso = models.DateField()
     valor_cuota = models.FloatField()
+    estado=models.BooleanField(default=False)
     comentarios = models.CharField(max_length=200)
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)

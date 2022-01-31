@@ -8,24 +8,48 @@ from .models import AcuerdoPago, EstudioCredito, ObligacionFinanciera, Persona, 
 
 
 class PersonaViewSet(viewsets.ModelViewSet):
-    queryset = Persona.objects.all()
     serializer_class = PersonaSerializer
-
-class ObligacionFinancieraViewSet(viewsets.ModelViewSet):
-    queryset = ObligacionFinanciera.objects.all()
-    serializer_class = ObligacionFinancieraSerializer
-
-class AcuerdoPagoViewSet(viewsets.ModelViewSet):
-    serializer_class = AcuerdoPagoSerializer
     queryset = AcuerdoPago.objects.all()
+
+    def get_queryset(self):
+        queryset = Persona.objects.all()
+        usuario = self.request.query_params.get('usuario')
+        if usuario is not None:
+            queryset = queryset.filter(
+                numero_identificacion=usuario)
+        return queryset
 
     def create(self, request):
         data = request.data
         return super().create(request)
 
+
+class ObligacionFinancieraViewSet(viewsets.ModelViewSet):
+    queryset = ObligacionFinanciera.objects.all()
+    serializer_class = ObligacionFinancieraSerializer
+
+
+class AcuerdoPagoViewSet(viewsets.ModelViewSet):
+    serializer_class = AcuerdoPagoSerializer
+    queryset = AcuerdoPago.objects.all()
+
+    def get_queryset(self):
+        queryset = AcuerdoPago.objects.all()
+        usuario = self.request.query_params.get('usuario')
+        if usuario is not None:
+            queryset = queryset.filter(
+                obligacion=usuario)
+        return queryset
+
+    def create(self, request):
+        data = request.data
+        return super().create(request)
+
+
 class EstudioCreditoViewSet(viewsets.ModelViewSet):
     queryset = EstudioCredito.objects.all()
     serializer_class = EstudioCreditoSerializer
+
 
 class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
     serializer_class = CuentasPorCobrarSerializer
