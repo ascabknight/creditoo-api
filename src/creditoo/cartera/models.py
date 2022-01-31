@@ -75,6 +75,7 @@ class EstudioCredito(models.Model):
     readonly_fields = ('creado', 'actualizado')
 
     ESTADOS = (
+        ('RADICADO', 'RADICADO'),
         ('EN_ESTUDIO', 'EN ESTUDIO'),
         ('PREAPROBADO', 'PREAPROBADO'),
         ('APROBADO', 'APROBADO'),
