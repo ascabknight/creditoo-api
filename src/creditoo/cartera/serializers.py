@@ -1,6 +1,5 @@
 from asyncore import read
 from django.forms import SlugField
-from numpy import source
 from rest_framework import serializers
 
 from .models import AcuerdoPago, EstudioCredito, ObligacionFinanciera, Persona, CuentasPorCobrar
