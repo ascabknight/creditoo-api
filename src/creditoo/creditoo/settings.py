@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 import environ
 
@@ -30,7 +31,7 @@ SECRET_KEY = 'django-insecure-#qax1(vk13&zc!+pof&+1le7ia(((_6xj2^!bo5t-#65y==qd=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -91,9 +92,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Creditoo',
-        'USER': 'root',
+        'USER': 'admin-creditoo',
         'PASSWORD': 'root',
-        'HOST': DATABASE_HOST,
+        'HOST': '/cloudsql/creditoo-demo:us-east1:creditoo-db',
         'PORT': '5432'
     }
 }
@@ -135,6 +136,8 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
 
 # Default primary key field type
