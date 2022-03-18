@@ -9,8 +9,10 @@ router.register(r'personas', views.PersonaViewSet, basename="Personas")
 router.register(r'cuentas', views.CuentasPorCobrarViewSet,
                 basename="CuentasPorCobrar")
 router.register(r'acuerdos', views.AcuerdoPagoViewSet, basename='AcuerdoPago')
-router.register(r'obligaciones', views.ObligacionFinancieraViewSet, basename="ObligacionFinanciera")
-router.register(r'estudio', views.EstudioCreditoViewSet, basename="EstudioCredito")
+router.register(r'obligaciones', views.ObligacionFinancieraViewSet,
+                basename="ObligacionFinanciera")
+
+
 urlpatterns = [
     path('', include(router.urls)),
     path('api/', include('rest_framework.urls', namespace='rest_framework'))

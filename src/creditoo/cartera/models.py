@@ -10,6 +10,12 @@ class Persona(models.Model):
     tipo_identification = models.CharField(max_length=2, default='CC')
     nombre_completo = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100)
+    nombre_departamento = models.CharField(
+        max_length=100, verbose_name='Nombre Departamento')
+    nombre_ciudad = models.CharField(
+        max_length=100, verbose_name='Nombre Ciudad')
+    nombre_barrio = models.CharField(
+        max_length=100, verbose_name='Nombre Barrio')
     direccion = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100)
     creado = models.DateTimeField(auto_now_add=True)
@@ -80,27 +86,9 @@ class AcuerdoPago(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 
-
-class EstudioCredito(models.Model):
-    readonly_fields = ('creado', 'actualizado')
-
-    ESTADOS = (
-        ('RADICADO', 'RADICADO'),
-        ('EN_ESTUDIO', 'EN ESTUDIO'),
-        ('PREAPROBADO', 'PREAPROBADO'),
-        ('APROBADO', 'APROBADO'),
-        ('DENEGADO', 'DENEGADO'),
-        ('FALTA_INFORMACION', 'FALTA INFORMACION'),
-    )
-    persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
-    monto_solicitado = models.FloatField(default=0)
-    cuotas = models.IntegerField(default=0)
-    documento_adjunto = models.CharField(max_length=200)
-    estado = models.CharField(
-        max_length=20, choices=ESTADOS, default='EN_ESTUDIO')
-    creado = models.DateTimeField(auto_now_add=True)
-    actualizado = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.obligacion
 
     class Meta:
-        verbose_name = 'Estudio De Credito'
-        verbose_name_plural = 'Estudios de Credito'
+        verbose_name = 'Acuerdo de pago'
+        verbose_name_plural = 'Acuerdos de pago'
