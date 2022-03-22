@@ -14,7 +14,6 @@ from pathlib import Path
 import environ
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
@@ -36,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'cartera.apps.CarteraConfig',
     'corsheaders',
     'django.contrib.admin',
@@ -82,7 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'creditoo.wsgi.application'
 
-DATABASE_HOST=env('DATABASE_HOST')
+DATABASE_HOST = env('DATABASE_HOST')
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -141,3 +141,31 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Ui jazzmin
+JAZZMIN_UI_TWEAKS = {
+    "theme": "lumen",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+}
+
+JAZZMIN_SETTINGS = {
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users"
+    },
+    "copyright": "Hector Cohen ❤️ ",
+    "user_avatar": None,
+}

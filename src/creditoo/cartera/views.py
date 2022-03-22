@@ -1,8 +1,8 @@
 from urllib.parse import quote_from_bytes
 from rest_framework import viewsets
 
-from .serializers import PersonaSerializer, CuentasPorCobrarSerializer, AcuerdoPagoSerializer, ObligacionFinancieraSerializer, EstudioCreditoSerializer
-from .models import AcuerdoPago, EstudioCredito, ObligacionFinanciera, Persona, CuentasPorCobrar
+from .serializers import PersonaSerializer, CuentasPorCobrarSerializer, AcuerdoPagoSerializer, ObligacionFinancieraSerializer
+from .models import AcuerdoPago, ObligacionFinanciera, Persona, CuentasPorCobrar
 
 # Create your views here.
 
@@ -44,11 +44,6 @@ class AcuerdoPagoViewSet(viewsets.ModelViewSet):
     def create(self, request):
         data = request.data
         return super().create(request)
-
-
-class EstudioCreditoViewSet(viewsets.ModelViewSet):
-    queryset = EstudioCredito.objects.all()
-    serializer_class = EstudioCreditoSerializer
 
 
 class CuentasPorCobrarViewSet(viewsets.ModelViewSet):
