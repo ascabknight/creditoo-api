@@ -57,7 +57,6 @@ class CuentasPorCobrar(models.Model):
 
     obligacion = models.ForeignKey(
         ObligacionFinanciera, on_delete=models.CASCADE, verbose_name='Obligacion')
-    periodo = models.CharField(max_length=100)
     estado_obligacion = models.CharField(max_length=150)
     fecha_ultimo_pago = models.DateTimeField(blank=True, null=True)
     fecha_limite_pago = models.DateTimeField()
