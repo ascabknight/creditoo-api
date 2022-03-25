@@ -83,6 +83,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'creditoo.wsgi.application'
 
 DATABASE_HOST = env('DATABASE_HOST')
+DATABASE_NAME = env('DATABASE_NAME')
+DATABASE_USER = env('DATABASE_USER')
+DATABASE_PASSWORD = env('DATABASE_PASSWORD')
+DATABASE_PORT = env('DATABASE_PORT')
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -90,11 +94,11 @@ DATABASE_HOST = env('DATABASE_HOST')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Creditoo',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
         'HOST': DATABASE_HOST,
-        'PORT': '5432'
+        'PORT': DATABASE_PORT
     }
 }
 
